@@ -32,7 +32,11 @@ Then, after defining your models in the schema, run Prisma migrations to set up 
 ```bash
 npx prisma migrate dev
 ```
+after that we need to generate our PrimaClient¨
 
+```bash
+npx prisma generate
+```
 To populate the database with initial development data, make a GET request to:
 ```bash
 http://localhost:3000/api/seed

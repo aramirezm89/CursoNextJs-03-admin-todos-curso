@@ -1,23 +1,31 @@
 import Image from "next/image";
 import Link from "next/link";
-import { CiBookmarkCheck, CiLogout } from "react-icons/ci";
-import SidebarItem from "./SidebarItem";
+import { CiLogout } from "react-icons/ci";
+import { SidebarItem } from "./SidebarItem";
+import {
+  IoCalendarOutline,
+  IoCheckboxOutline,
+  IoListOutline,
+} from "react-icons/io5";
 
 const menuItems = [
   {
-    icon: <CiBookmarkCheck size={30} />,
+    icon: <IoCalendarOutline size={30} />,
     path: "/dashboard",
     title: "Dashboard",
   },
   {
-    icon: <CiBookmarkCheck size={30} />,
-    path: "/categories",
-    title: "Categories",
+    icon: <IoCheckboxOutline size={30} />,
+    path: "/dashboard/rest-todos",
+    title: "Rest TODOS",
   },
-
+  {
+    icon: <IoListOutline size={30} />,
+    path: "/dashboard/server-todos",
+    title: "Server Actions",
+  },
 ];
-export default function SidebarComponent() {
-    
+export function SidebarComponent() {
   return (
     <aside className="ml-[-100%] fixed z-10 top-0 pb-3 px-6 w-full flex flex-col justify-between h-screen border-r bg-white transition duration-300 md:w-4/12 lg:ml-0 lg:w-[25%] xl:w-[20%] 2xl:w-[15%]">
       <div className="w-full">

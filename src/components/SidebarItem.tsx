@@ -9,7 +9,7 @@ interface Props{
     title: string
     path: string
 }
-export default function SidebarItem({icon,title,path} : Props) {
+export  function SidebarItem({icon,title,path} : Props) {
 
     const pathName = usePathname();
     const isActive = pathName === path;
@@ -17,12 +17,16 @@ export default function SidebarItem({icon,title,path} : Props) {
   return (
     <Link
       href={path}
-      className={`relative px-4 py-3 flex items-center space-x-4 rounded-xl ${
-        isActive ? " text-white bg-gradient-to-r from-sky-600 to-cyan-400" : ""
-      }`}
+      className={`relative px-4 py-3 flex items-center space-x-4 rounded-xl 
+        hover:bg-gradient-to-r hover:bg-sky-600 hover:text-white
+        ${
+          isActive
+            ? " text-white bg-gradient-to-r from-sky-600 to-cyan-400"
+            : ""
+        }`}
     >
       {icon}
-      <span className="-mr-1 font-medium">{title}</span>
+      <span className="-mr-1 font-mediu">{title}</span>
     </Link>
   );
 }

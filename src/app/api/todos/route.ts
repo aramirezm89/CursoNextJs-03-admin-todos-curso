@@ -41,3 +41,11 @@ try{
     return NextResponse.json(err.errors,{status: 400});
 }
 }
+
+
+export async function DELETE() {
+
+  const deletedTodos = await prisma.todo.deleteMany({where: { completed: true }});
+  return NextResponse.json({ deletedTodos }, { status: 200 });
+
+}

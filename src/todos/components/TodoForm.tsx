@@ -2,11 +2,12 @@
 
 import { FormEvent, useState } from "react";
 import { IoTrashOutline } from "react-icons/io5";
-import { createTodo, deleteCompleted } from "../helpers/todos";
-import { useRouter } from "next/navigation";
+/* import { createTodo, deleteCompleted } from "../helpers/todos"; */
+/* import { useRouter } from "next/navigation"; */
+import { createTodo as createTodoAction, deleteCompletedAction } from "../actions/todo-actions";
 
 export const TodoForm = () => {
-  const router = useRouter();
+/*   const router = useRouter(); */
   const [description, setDescription] = useState<string>("");
 
   const onSubmit = async (e: FormEvent) => {
@@ -14,13 +15,22 @@ export const TodoForm = () => {
 
     if (description.trim().length === 0) return;
 
-    await createTodo(description);
-    router.refresh();
+
+    // Forma de llamar a la accion tradicional mediante el api que contruimos
+/*     await createTodo(description);
+    router.refresh(); */
+
+    // Forma de hacer lo mismo que con el api pero con una server action de NEXT
+    await createTodoAction(description);
+    setDescription("");
   };
 
   const deleteCompletedTodos = async () => {
-    await deleteCompleted();
-    router.refresh();
+    // Forma de llamar a la accion tradicional mediante el api que contruimos
+ /*    await deleteCompleted(); 
+    router.refresh();*/
+    // Forma de hacer lo mismo que con el api pero con una server action de NEXT
+    deleteCompletedAction();
   };
   return (
     <form className="flex w-full mx-auto " onSubmit={onSubmit}>

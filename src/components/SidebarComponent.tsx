@@ -6,6 +6,8 @@ import {
   IoCalendarOutline,
   IoCheckboxOutline,
   IoListOutline,
+  IoCodeWorkingOutline,
+  IoBasketOutline
 } from "react-icons/io5";
 
 const menuItems = [
@@ -23,6 +25,16 @@ const menuItems = [
     icon: <IoListOutline size={30} />,
     path: "/dashboard/server-todos",
     title: "Server Actions",
+  },
+  {
+    icon: <IoCodeWorkingOutline size={30} />,
+    path: "/dashboard/cookies",
+    title: "Cookies",
+  },
+  {
+    icon: <IoBasketOutline size={30} />,
+    path: "/dashboard/products",
+    title: "Products",
   },
 ];
 export function SidebarComponent() {

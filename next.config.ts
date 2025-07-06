@@ -15,8 +15,11 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname:
-          "omniretro.com",
+        hostname: "omniretro.com",
+      },
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
       },
     ],
   },

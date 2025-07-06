@@ -7,7 +7,7 @@ export const metadata = {
 };
 export default async function CookiesPage() {
     const cookiesStore = await cookies();
-    const selectedTab =  cookiesStore.get("selectedTab")?.value || "1";
+    const selectedTab =  cookiesStore.get("selectedTab")?.value ?? "1";
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
       <div>

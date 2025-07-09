@@ -11,6 +11,7 @@ export default async function DashboardPage() {
   const session = await auth();
   console.log("session", session);
   if (!session) {
+  console.log("No session found, redirecting to signin");
    redirect("/api/auth/signin");
   }
   const { user } = session;

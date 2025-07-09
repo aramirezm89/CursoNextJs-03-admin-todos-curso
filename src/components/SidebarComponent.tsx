@@ -1,15 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
-import { CiLogout } from "react-icons/ci";
 import { SidebarItem } from "./SidebarItem";
 import {
   IoCalendarOutline,
   IoCheckboxOutline,
   IoListOutline,
   IoCodeWorkingOutline,
-  IoBasketOutline
+  IoBasketOutline,
+  IoPerson
 } from "react-icons/io5";
 import { auth } from "@/app/auth";
+import { LogoutButton } from "./LogoutButton";
 
 const menuItems = [
   {
@@ -36,6 +37,11 @@ const menuItems = [
     icon: <IoBasketOutline size={30} />,
     path: "/dashboard/products",
     title: "Products",
+  },
+  {
+    icon: <IoPerson size={30} />,
+    path: "/dashboard/profile",
+    title: "Profile client side",
   },
 ];
 export async  function SidebarComponent() {
@@ -91,10 +97,7 @@ export async  function SidebarComponent() {
       </div>
 
       <div className="px-6 -mx-6 pt-4 flex justify-between items-center border-t">
-        <button className="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group cursor-pointer">
-          <CiLogout />
-          <span className="group-hover:text-gray-700">Logout</span>
-        </button>
+       <LogoutButton/>
       </div>
     </aside>
   );

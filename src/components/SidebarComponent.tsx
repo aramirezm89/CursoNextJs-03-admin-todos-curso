@@ -86,7 +86,7 @@ export async  function SidebarComponent() {
           <h5 className="hidden mt-4 text-xl font-semibold text-gray-600 lg:block">
             {user?.name ?? "User Name"}
           </h5>
-          <span className="hidden text-gray-400 lg:block">Admin</span>
+          <span className="hidden text-gray-400 lg:block">{user?.roles.join(',')}</span>
         </div>
 
         <ul className="space-y-2 tracking-wide mt-8">

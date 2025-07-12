@@ -70,7 +70,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
     async jwt({ token }) {
       const userDb = await prisma.user.findUnique({
-        where: { email: token.email ?? "no-wmail" },
+        where: { email: token.email ?? "no-email" },
       });
 
       if (userDb?.isActive === false) {

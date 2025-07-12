@@ -28,6 +28,7 @@ export async function GET(request: NextRequest) {
 const postSchema = yup.object({
   description: yup.string().required(),
   completed: yup.bool().optional().default(false),
+  userId : yup.string().required()
 });
 
 export async function POST(req: Request) {

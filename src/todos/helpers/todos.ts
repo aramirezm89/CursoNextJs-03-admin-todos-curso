@@ -23,9 +23,9 @@ export const updateTodo = async (
 };
 
 
-export const createTodo = async (description:string): Promise<Todo> =>{
+export const createTodo = async (description:string,userId : string): Promise<Todo> =>{
 
-  const body = { description };
+  const body = { description,userId };
 
   const todo = await fetch("/api/todos",{
     body: JSON.stringify(body),

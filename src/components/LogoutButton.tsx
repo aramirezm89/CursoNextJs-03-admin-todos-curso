@@ -12,7 +12,7 @@ import { signOut,signIn } from "next-auth/react";
 
 
 export const LogoutButton = () => {
-    const {data : session,status} = useSession();
+    const {status} = useSession();
 
     
 const onLogout = () =>{

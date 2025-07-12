@@ -34,11 +34,12 @@ export const toggleTodo = async (
   return updateTodo;
 };
 
-export const createTodo = async (description: string) => {
+export const createTodo = async (description: string, userId : string) => {
   try {
     const todoInserted = await prisma.todo.create({
       data: {
         description,
+       userId
       },
     });
 

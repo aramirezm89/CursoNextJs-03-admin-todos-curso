@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Todo } from "@/generated/prisma";
+import { auth } from "@/app/auth";
 import prisma from "@/lib/prisma";
 import { NextResponse, NextRequest } from "next/server";
 import * as yup from "yup";
@@ -8,10 +9,12 @@ interface Segments {
 }
 
 const getTodo = async (id: string): Promise<Todo | null> => {
+  const session = await auth();
   const todo = await prisma.todo.findFirst({
-    where: { id },
+    where: { id},
   });
 
+  if(todo?.userId !== session?.user.id) return null;
   return todo;
 };
 
@@ -30,7 +33,6 @@ const putSchema = yup.object({
   description: yup.string().optional(),
   completed: yup.bool().optional().default(false),
 });
-
 
 
 export async function PUT(request: Request, { params }: Segments) {

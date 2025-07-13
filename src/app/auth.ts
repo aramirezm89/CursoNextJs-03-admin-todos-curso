@@ -7,6 +7,7 @@ import prisma from "@/lib/prisma";
 
 import type { DefaultSession } from "next-auth";
 import { signInEmailPassword } from "./auth/actions/auth-actions";
+import { Provider } from "next-auth/providers";
 
 declare module "next-auth" {
   interface Session {
@@ -17,47 +18,59 @@ declare module "next-auth" {
   }
 }
 
+const providers: Provider[] = [
+  Google,
+  GitHub,
+  Credentials({
+    name: "Credentials",
+
+    // You can specify which fields should be submitted, by adding keys to the `credentials` object.
+    // e.g. domain, username, password, 2FA token, etc.
+    credentials: {
+      email: {
+        label: "Email",
+        type: "email",
+        placeholder: "Ingresa tu email",
+      },
+      password: {
+        label: "Password",
+        type: "password",
+        placeholder: "******",
+      },
+    },
+    authorize: async (credentials) => {
+      // logic to salt and hash password
+      /*     const pwHash = saltAndHashPassword(credentials.password); */
+
+      // logic to verify if the user exists
+      const user = signInEmailPassword(
+        credentials.email as string,
+        credentials.password as string
+      );
+      if (!user) {
+        // No user found, so this is their first attempt to login
+        // Optionally, this is also the place you could do a user registration
+        throw new Error("Invalid credentials.");
+      }
+
+      // return user object with their profile data
+      return user;
+    },
+  }),
+];
+export const providerMap = providers
+  .map((provider) => {
+    if (typeof provider === "function") {
+      const providerData = provider();
+      return { id: providerData.id, name: providerData.name };
+    } else {
+      return { id: provider.id, name: provider.name };
+    }
+  })
+  .filter((provider) => provider.id !== "credentials");
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  providers: [
-    Google,
-    GitHub,
-    Credentials({
-      name: "Credentials",
-
-      // You can specify which fields should be submitted, by adding keys to the `credentials` object.
-      // e.g. domain, username, password, 2FA token, etc.
-      credentials: {
-        email: {
-          label: "Email",
-          type: "email",
-          placeholder: "Ingresa tu email",
-        },
-        password: {
-          label: "Password",
-          type: "password",
-          placeholder: "******",
-        },
-      },
-      authorize: async (credentials) => {
-        // logic to salt and hash password
-        /*     const pwHash = saltAndHashPassword(credentials.password); */
-
-        // logic to verify if the user exists
-        const user = signInEmailPassword(
-          credentials.email as string,
-          credentials.password as string
-        );
-        if (!user) {
-          // No user found, so this is their first attempt to login
-          // Optionally, this is also the place you could do a user registration
-          throw new Error("Invalid credentials.");
-        }
-
-        // return user object with their profile data
-        return user;
-      },
-    }),
-  ],
+  providers,
   adapter: PrismaAdapter(prisma),
   session: {
     strategy: "jwt",
@@ -87,4 +100,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return session;
     },
   },
+ /*  pages:{
+    signIn:'/login'
+  } */
 });

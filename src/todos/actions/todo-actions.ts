@@ -3,7 +3,7 @@
 import { Todo } from "@/generated/prisma";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-
+import {auth} from '@/app/auth'
 
 
 export const sleep = async (seconds : number = 0) =>{
@@ -34,12 +34,16 @@ export const toggleTodo = async (
   return updateTodo;
 };
 
-export const createTodo = async (description: string, userId : string) => {
+export const createTodo = async (description: string) => {
+const session = await auth();
+  if(!session?.user){
+    throw Error('no existe usuario')
+  }
   try {
     const todoInserted = await prisma.todo.create({
       data: {
         description,
-       userId
+       userId: session.user.id
       },
     });
 
@@ -56,9 +60,10 @@ export const createTodo = async (description: string, userId : string) => {
 
 
 export const deleteCompletedAction = async () =>{
+  const session = await auth();
   try {
     const deletedTodos = await prisma.todo.deleteMany({
-      where: { completed: true },
+      where: { completed: true,userId:session?.user.id },
     });
 
     revalidatePath("/dashboard/rest-todos");

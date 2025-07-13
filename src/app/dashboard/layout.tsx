@@ -1,12 +1,17 @@
-
+import { auth } from "../auth";
 import { SidebarComponent } from "@/components";
 import TopMenu from "@/components/TopMenu";
-
-export default function DashboardLayout({
+import { redirect } from "next/navigation";
+export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await auth();
+  if (!session) {
+    console.log("No session found, redirecting to signin");
+    redirect("/api/auth/signin");
+  }
   return (
     <>
       {/* TODO: src/components <Sidebar /> */}

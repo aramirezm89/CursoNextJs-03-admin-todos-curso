@@ -5,10 +5,9 @@ import { IoTrashOutline } from "react-icons/io5";
 /* import { createTodo, deleteCompleted } from "../helpers/todos"; */
 /* import { useRouter } from "next/navigation"; */
 import { createTodo as createTodoAction, deleteCompletedAction } from "../actions/todo-actions";
-import { useSession } from "next-auth/react";
+
 
 export const TodoForm = () => {
-  const {data : session} = useSession();
 /*   const router = useRouter(); */
   const [description, setDescription] = useState<string>("");
 
@@ -23,7 +22,7 @@ export const TodoForm = () => {
     router.refresh(); */
 
     // Forma de hacer lo mismo que con el api pero con una server action de NEXT
-    await createTodoAction(description,session!.user.id);
+    await createTodoAction(description);
     setDescription("");
   };
 
@@ -41,6 +40,7 @@ export const TodoForm = () => {
         type="text"
         className="w-6/12 pl-3  pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-sky-500 transition-all"
         placeholder="¿Qué necesita ser hecho?"
+        value={description}
       />
 
       <button

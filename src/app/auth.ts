@@ -67,6 +67,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       console.log(user);
       return true;
     },
+    
 
     async jwt({ token }) {
       const userDb = await prisma.user.findUnique({

@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse, NextRequest } from "next/server";
+import { auth } from "@/app/auth";
 import prisma from "@/lib/prisma";
 import * as yup  from 'yup';
 
+  const session = await auth();
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -28,12 +30,20 @@ export async function GET(request: NextRequest) {
 const postSchema = yup.object({
   description: yup.string().required(),
   completed: yup.bool().optional().default(false),
-  userId : yup.string().required()
 });
 
 export async function POST(req: Request) {
+
+
+
+  if(!session?.user){
+ return NextResponse.json('no autorizado',{status:401})
+  }
+
+
 try{
-    const data = await postSchema.validate(await req.json());
+  const {description,completed} = await postSchema.validate(await req.json())
+    const data = {description,completed,userId : session.user.id};
 
     const todoInserted = await prisma.todo.create({
       data: data,
@@ -48,7 +58,7 @@ try{
 
 export async function DELETE() {
 
-  const deletedTodos = await prisma.todo.deleteMany({where: { completed: true }});
+  const deletedTodos = await prisma.todo.deleteMany({where: { completed: true, userId: session?.user.id }});
   return NextResponse.json({ deletedTodos }, { status: 200 });
 
 }

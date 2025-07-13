@@ -12,7 +12,6 @@ export const metadata = {
 };
 export default async function RestTodosPage() {
   const session = await auth();
-  console.log(session)
   const todos = await prisma.todo.findMany({
     orderBy: { cretedAt: "desc" },
     where: { userId: session?.user.id ?? '' },

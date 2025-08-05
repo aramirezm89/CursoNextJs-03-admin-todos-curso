@@ -58,6 +58,8 @@ const providers: Provider[] = [
     },
   }),
 ];
+
+// this providerMap is necessary to implement a custom login page
 export const providerMap = providers
   .map((provider) => {
     if (typeof provider === "function") {
